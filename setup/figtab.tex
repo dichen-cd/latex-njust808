@@ -1,0 +1,32 @@
+% !Mode:: "TeX:UTF-8"
+% !TeX root = ../main.tex
+% 这个是为了WinEdt设置的，它的默认不是UTF8.
+% 若xelatex编译非UTF8文件，需在每个文件中指定字符编码;
+% main.tex中手动制定了\atemp和\usewhat参数；
+\ifx\atempxetex\usewhat
+%\XeTeXinputencoding "gbk"
+\fi
+
+%% 中英文图形表格索引   %硕博士学位论文规范均不要求这一项，请正式打印的时候屏蔽掉这一段；
+\ifxueweidoctor
+  %\clearpage{\pagestyle{empty}\cleardoublepage}   % 清除目录后面空页的页眉和页脚
+\else%
+  {\ifoneortwoside\clearpage{\pagestyle{empty}\cleardoublepage}\else\newpage\fi} % 清除目录后面空页的页眉和页脚
+\fi
+\addcontentsline{toc}{chapter}{\textbf{插图目录}}   % 中文插图加入到中文目录
+\listoffigures                                  % 生成中文 图形索引
+\ifxueweidoctor                                 %硕士学位论文没有英文目录
+%\clearpage{\pagestyle{empty}\cleardoublepage}   % 英文图形索引 右开 ？需要吗？
+\fi
+
+\ifxueweidoctor
+  %\clearpage{\pagestyle{empty}\cleardoublepage}   % 清除目录后面空页的页眉和页脚
+\else%
+  {\ifoneortwoside\clearpage{\pagestyle{empty}\cleardoublepage}\else\newpage\fi}   % 清除目录后面空页的页眉和页脚
+\fi
+\addcontentsline{toc}{chapter}{\textbf{表格目录}}   % 中文表格加入到中文目录
+\listoftables                                   % 生成中文 表格索引
+\ifxueweidoctor                                 %硕士学位论文没有英文目录
+%\clearpage{\pagestyle{empty}\cleardoublepage}   % 英文表格索引 右开 ？需要吗？
+\fi
+%% 如果不需要图表索引，注释掉上面的即可

@@ -1,0 +1,98 @@
+% !Mode:: "TeX:UTF-8"
+% 这个是为了WinEdt设置的，它的默认不是UTF8.
+% !TeX root = ../main.tex
+% 这个为TexWorks设置，可以用来编译多个文件。
+
+% 若xelatex编译非UTF8文件，需在每个文件中指定字符编码;
+% main.tex中手动制定了\atemp和\usewhat参数；
+\ifx\atempxetex\usewhat
+%\XeTeXinputencoding "gbk"
+\fi
+
+\newcommand{\chinesethesistitle}{南京理工大学博士学位论文模板} %授权书用，无需断行
+\newcommand{\englishthesistitle}{Phd Thesis LaTeX Template for \\Nanjing Unversity of Science and Technology}
+\newcommand{\chinesethesistime}{2011~年~10~月}  %封面底部的日期中文形式
+\newcommand{\dchinesethesistime}{2011~年~12~月} %答辩日期中文形式
+\newcommand{\englishthesistime}{October, 2011}   %封面底部的日期英文形式
+%-----定义标签值-与format.tex文件中的定义相对应----------------
+\lnatclassifiedindex{分类号}
+\lsecretclassifiedindex{密级}
+\linternatclassifiedindex{UDC}
+
+\lsupervisor{指导教师}
+\lname{姓名}
+\lauthor{作\hspace*{2em}者}
+\ldegree{申请学位级别}
+\lsubject{专业名称}
+\ldate{论文提交日期}
+\lddate{论文答辩日期}
+\lschool{学位授予单位和日期}
+\lchairman{答辩委员会主席}
+\lexpositor{评阅人}
+\cabstract{摘\hspace*{2em}要}
+\ckeywords{关键词}
+
+%----定义标签对应选项的值---------------
+\natclassifiedindex{TP309}
+\secretclassifiedindex{公开}
+\internatclassifiedindex{~681.324} %国际图书分类号
+
+%\school{南京理工大学}
+%\cdegree{\cxueke\cxuewei}
+\ctitle{\erhao\hei 南京理工大学博士学位论文模板}  %封面用论文标题，自己可手动断行
+\csubject{专业名称}                 %(~按二级学科填写~)
+\cauthor{某学生}
+\crole{教授}
+\csupervisor{某~教~授} %导师名字
+%\cassosupervisor{某~~~~~~某~~~~教~~授}     %(~如无副导师可以不列此项~)
+%\ccosupervisor{某~~某~~某~~~~教~~授~} %(~如无联合培养导师则不列此项~)
+\cdate{\chinesethesistime}
+\ddate{\dchinesethesistime}%定义答辩日期
+
+\etitle{\englishthesistitle}
+\edegree{\exuewei \ of \exueke}
+\esubject{Zhuanye mingcheng}  %英文二级学科名
+\eaffil{School of Science and Technology}%英文单位 %换行用\newline，不要用\\
+\eauthor{\textbf{Student Name}}                   %作者姓名 （英文）
+\esupervisor{\textbf{Supervisor's Name}}       % 导师姓名 （英文）
+%\ecosupervisor{Professor X}
+%\eassosupervisor{Professor Y}
+\edate{\englishthesistime}
+
+
+\cabstract{
+
+背景
+
+主要贡献
+
+
+%关键词不能放在摘要页的外面
+ \ckeywords{LaTeX \quad 南京理工大学 \quad 博士论文模板 }
+}
+
+\eabstract{ 
+
+English Abstract
+}
+
+\ekeywords{LaTeX \quad Nanjing University of Scicence and Technology \quad Phd Thesis Template}
+
+%主要符号说明
+%\NotationList{
+%%\vspace*{10pt}%可在主要符号说明与下面内容之间留空
+%\begin{center}
+%\begin{tabular}{llll}
+%面积,& $m^2$             & 希腊字母  &\\
+%\multicolumn{1}{c}{$c_p$}  & 定压比热,~$J/(kg \cdot{k})$~& \multicolumn{1}{c}{$\mu{}$}~& 动力粘度,~$kg/(m\cdot{s})$~\\
+%\multicolumn{1}{c}{$\emph{d}$} & 直径,~$m$~ & \multicolumn{1}{c}{$\alpha{}$} & 总热适应系数~\\
+%~& 全导数 &  \multicolumn{1}{c}{$\omega{}$} & 孔隙率~\\
+%\multicolumn{1}{c}{$\emph{f}$} & 摩擦因子 & \multicolumn{1}{c}{$\varepsilon$} & 相含量~\\
+%\multicolumn{1}{c}{$\emph{h}$} & 对流换热系数,~$w/{m^2}\cdot k$~ & & 发射率~\\
+%~& 比焓,~${J/kg}$~ & \multicolumn{1}{c}{$\delta$} & 系数变量~\\
+%\multicolumn{1}{c}{$\emph{H}$} & 焓,~$J$~ &\multicolumn{1}{c}{$\nu$}& 运动粘度
+%\end{tabular}
+%\end{center}
+%}
+\makecover
+\clearpage

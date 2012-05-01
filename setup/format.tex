@@ -1,0 +1,563 @@
+% !Mode:: "TeX:UTF-8"
+% !TeX root = ../main.tex
+% 这个是为了WinEdt设置的，它的默认不是UTF8.
+% 若xelatex编译非UTF8文件，需在每个文件中指定字符编码;
+% main.tex中手动制定了\atemp和\usewhat参数；
+\ifx\atempxetex\usewhat
+%\XeTeXinputencoding "gbk"
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%允许公式换页显示,否则大型推导公式都在一页内，
+%一页显示不下放到第二页，导致很大的空白空间，很不好看
+\allowdisplaybreaks[4]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%下面这组命令使浮动对象的缺省值稍微宽松一点，从而防止幅度
+%对象占据过多的文本页面，也可以防止在很大空白的浮动页上放置很小的图形。
+\renewcommand{\topfraction}{0.9999999}
+\renewcommand{\textfraction}{0.0000001}
+\renewcommand{\floatpagefraction}{0.9999}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 重定义一些正文相关标题
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\theoremstyle{plain} \theorembodyfont{\song\rmfamily}
+\theoremheaderfont{\hei\rmfamily} %\theoremseparator{:}
+\newtheorem{definition}{\hei 定义}[chapter]
+\newtheorem{example}{\hei 例}[chapter]
+\newtheorem{algo}{\hei 算法}[chapter]
+\newtheorem{theorem}{\hei 定理}[chapter]
+\newtheorem{axiom}{\hei 公理}[chapter]
+\newtheorem{proposition}{\hei 命题}[chapter]
+\newtheorem{lemma}{\hei 引理}[chapter]
+\newtheorem{corollary}{\hei 推论}[chapter]
+\newtheorem{remark}{\hei 注解}[chapter]
+%\newtheorem{proposition}[definition]{\hei 命题}
+%\newtheorem{lemma}[definition]{\hei 引理}
+%\newtheorem{exercise}[definition]{}
+%\newtheorem{corollary}[definition]{\hei 推论}
+%\newtheorem{remark}[definition]{\hei 注解}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%解决原proof定理环境的两个问题：
+%  1. proof 中的item缩进不对
+%  2. proof 中的最后一个公式下出现一个黑方块。
+%\theoremsymbol{$\blacksquare$}
+%\newtheorem{proof}{\hei 证明}
+\newenvironment{proof}{\noindent{\hei 证明：}}{\hfill $ \square $ \vskip 4mm}
+\theoremsymbol{$\square$}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 用于中文段落缩进 和正文版式
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ifx\atempxetex\usewhat
+\newcommand{\CJKcaption}[1]{
+  \ifx\CJK@actualBinding \@empty
+    \PackageError{CJK}{
+      You must be inside of a CJK environment to use \protect\CJKcaption}{}
+  \else
+    \makeatletter
+    \InputIfFileExists{#1.cpx}{}{
+      \PackageError{CJK}{
+        Can't find #1.cpx}{
+        The default captions are used if you continue.}}
+    \makeatother
+  \fi}
+\CJKcaption{gb_452}
+\else
+\CJKcaption{gb_452}
+\newlength \CJKtwospaces
+\def\CJKindent{
+    \settowidth\CJKtwospaces{\CJKchar{"0A1}{"0A1}\CJKchar{"0A1}{"0A1}}%
+    \parindent\CJKtwospaces
+}
+\CJKtilde  \CJKindent
+\fi
+\renewcommand\CJKprechaptername{}
+\renewcommand\CJKchaptername{}
+\setlength{\parindent}{26pt} %由于工大论文的每行的字距加大了，需要增加段首缩2pt
+
+\renewcommand\contentsname{\hei 目~~~~录}
+
+%%%%%%章节标题为“1”的形式
+\renewcommand\chaptername{\arabic{chapter}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%定义段落章节的标题和目录项的格式
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{secnumdepth}{4} \setcounter{tocdepth}{2}
+
+\titleformat{\chapter}[hang]{\xiaosan\bf\filcenter\song\sf\boldmath}{\xiaosan\chaptertitlename}{1em}{\xiaosan}
+\titlespacing{\chapter}{0pt}{18pt}{18pt}
+
+\titleformat{\section}[hang]{\song\sihao\sf\bf\boldmath}{\song\sihao\sf\bf\thesection}{0.5em}{}
+\titlespacing{\section}{0pt}{12pt}{12pt}
+
+\titleformat{\subsection}[hang]{\song\sf\xiaosi\bf\boldmath}{\xiaosi\thesubsection}{0.5em}{}
+\titlespacing{\subsection}{0pt}{6pt}{6pt}
+
+\titleformat{\subsubsection}[hang]{\song\sf\xiaosi\boldmath}{\xiaosi\thesubsubsection}{0.5em}{}[\;\;]
+\titlespacing{\subsubsection}{0pt}{3pt}{2pt}
+
+% 缩小目录中各级标题之间的缩进，使它们相隔一个字符距离，也就是12pt
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{12pt}{18pt}}
+\renewcommand*\l@subsection{\@dottedtocline{2}{24pt}{27pt}}
+\renewcommand*\l@subsubsection{\@dottedtocline{3}{36pt}{39pt}}
+\renewcommand*\l@paragraph{\@dottedtocline{4}{48pt}{48pt}}
+\renewcommand*\l@subparagraph{\@dottedtocline{5}{60pt}{60pt}}
+
+%控制中文目录
+\dottedcontents{chapter}[3.4em]{\vspace{0.5em}\hspace{-3.4em}\hei \bf\boldmath}{0.0em}{5pt}% 章标题后用粗点
+%\titlecontents{chapter}[3.92em]{\vspace{0.5em}\hspace{-3.92em}\hei \bf\boldmath}{\contentslabel{0em}}{\hspace*{-0em}}{\normalfont\titlerule*[5pt]{.}\contentspage} %章标题后用细点
+\dottedcontents{section}[1.6cm]{}{1.8em}{5pt}
+\dottedcontents{subsection}[2.840cm]{}{2.7em}{5pt}
+\dottedcontents{subsubsection}[3.78cm]{}{3.4em}{5pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 定义页眉和页脚 使用fancyhdr 宏包
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\makeheadrule}{%
+\makebox[-3pt][l]{\rule[.7\baselineskip]{\headwidth}{0.4pt}}
+\rule[0.85\baselineskip]{\headwidth}{0pt}\vskip-.8\baselineskip}%控制页眉上的线粗细
+\renewcommand{\headrule}{%
+    {\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi
+     \makeheadrule}}
+
+\pagestyle{fancyplain}
+
+%去掉章节标题中的数字
+%%不要注销这一行，否则页眉会变成：“第1章1  绪论”样式
+\renewcommand{\chaptermark}[1]{\markboth{\chaptertitlename~~ \ #1}{}}
+ \fancyhf{}
+
+%在book文件类别下,\leftmark自动存录各章之章名,\rightmark记录节标题
+%% 页眉字号 南理工要求小五宋体
+%根据单双面打印设置不同的页眉；
+\ifoneortwoside
+  \fancyhead{} % clear all fields
+  \fancyhead[LO]{\CJKfamily{song}\xiaowu{}\cxuewei 论文}
+  \fancyhead[RO]{\CJKfamily{song}\xiaowu 基于图的模式识别及其在计算机视觉中的应用}
+  \fancyhead[LE]{\CJKfamily{song}\xiaowu \leftmark}%
+  \fancyhead[RE]{\CJKfamily{song}\xiaowu  \cxuewei 论文}%
+  \fancyfoot[RO,LE]{\xiaowu ~\thepage~} %页码左右两边有一小段横线%\if@mainmatter \fi
+\else
+\fancyhead{} % clear all fields
+  \fancyhead[LO]{\CJKfamily{song}\xiaowu{}\cxuewei 论文}
+  \fancyhead[RO]{\CJKfamily{song}\xiaowu{}基于图的模式识别及其在计算机视觉中的应用}
+  \fancyhead[LE]{\CJKfamily{song}\xiaowu\leftmark }%
+  \fancyhead[RE]{\CJKfamily{song}\xiaowu  \cxuewei 论文 }%
+  \fancyfoot[RO,LE]{\xiaowu ~\thepage~} %\if@mainmatter \fi
+\fi
+
+\renewcommand\frontmatter{%
+    \cleardoublepage
+  \@mainmatterfalse
+  \pagenumbering{Roman}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 设置行距和段落间垂直距离
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand{\CJKglue}{\hskip 0.3pt plus 0.08\baselineskip}%加大字间距，使每行33个字
+%\setlength{\belowcaptionskip}{10pt}   % 加大标题和表格之间的距离 \abovecaptionskip 默认是10pt
+\setlength{\parskip}{3pt plus1pt minus1pt} % 段落之间的竖直距离
+\renewcommand{\baselinestretch}{2}% 定义行距
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 调整列表环境的垂直间距
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setitemize{itemindent=38pt,leftmargin=0pt,itemsep=-0.4ex,listparindent=26pt,partopsep=0pt,parsep=0.5ex,topsep=-0.25ex}
+\setenumerate{itemindent=38pt,leftmargin=0pt,itemsep=-0.4ex,listparindent=26pt,partopsep=0pt,parsep=0.5ex,topsep=-0.25ex}
+\setdescription{itemindent=38pt,leftmargin=0pt,itemsep=-0.4ex,listparindent=26pt,partopsep=0pt,parsep=0.5ex,topsep=-0.25ex}
+
+\newcommand{\ucite}[1]{$^{\mbox{\scriptsize \cite{#1}}}$} % 增加 \ucite 命令使显示的引用为上标形式
+\newcommand{\citeup}[1]{$^{\mbox{\scriptsize \cite{#1}}}$} % for WinEdt users
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 定制浮动图形和表格标题样式 %这里用ccaption完全代替了caption2的功能
+\captionstyle{\centering}   %不同的图标题形式采用不同的命令
+%\indentcaption{0pt}           %参见ccaption
+\hangcaption
+\captionnamefont{\CJKfamily{song}\rmfamily\wuhao\selectfont}
+\captiontitlefont{\CJKfamily{song}\rmfamily\wuhao\selectfont}
+\captiondelim{~} %~
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 定义题头格言的格式
+% 用法 \begin{Aphorism}{author}
+%         aphorism
+%      \end{Aphorism}
+\newsavebox{\AphorismAuthor}
+\newenvironment{Aphorism}[1]
+{\vspace{0.5cm}\begin{sloppypar} \slshape
+\sbox{\AphorismAuthor}{#1}
+\begin{quote}\small\itshape }
+{\\ \hspace*{\fill}------\hspace{0.2cm} \usebox{\AphorismAuthor}
+\end{quote}
+\end{sloppypar}\vspace{0.5cm}}
+
+%自定义一个空命令，用于注释掉文本中不需要的部分。
+\newcommand{\comment}[1]{}
+
+\renewcommand\contentsname{\hei 目~~~~录}
+\renewcommand\listfigurename{\hei 插图目录}
+\renewcommand\listtablename{\hei 表格目录}
+
+%%%%%%将章标题中的中文数字（一、二、三）变为阿拉伯数字(1,2,3)
+\renewcommand\CJKthechapter{%\CJKnumber
+{\@arabic\c@chapter}}
+
+%%%%%%不要拉大行距使得页面充满
+\raggedbottom
+
+% This is the flag for longer version
+\newcommand{\longer}[2]{#1}
+
+\newcommand{\ds}{\displaystyle}
+
+% define graph scale
+\def\gs{1.0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 自定义项目列表标签及格式 \begin{hitlist} 列表项 \end{hitlist}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{hitctr} %自定义新计数器
+\newenvironment{hitlist}{%%%%%定义新环境
+\begin{list}{{\hei (\arabic{hitctr})}} %%标签格式
+    {
+     \usecounter{hitctr}
+     \setlength{\leftmargin}{0cm}     %左边界
+     \setlength{\parsep}{0ex}         %段落间距
+     \setlength{\topsep}{0pt}         %列表到上下文的垂直距离
+     \setlength{\itemsep}{0ex}        %标签间距
+     \setlength{\labelsep}{0.3em}     %标号和列表项之间的距离,默认0.5em
+     \setlength{\itemindent}{46pt}    %标签缩进量
+     \setlength{\listparindent}{27pt} %段落缩进量
+    }}
+{\end{list}}%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 自定义项目列表标签及格式 \begin{publist} 列表项 \end{publist}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcounter{pubctr} %自定义新计数器
+\newenvironment{publist}{%%%%%定义新环境
+\begin{list}{\arabic{pubctr}} %%标签格式
+    {
+     \usecounter{pubctr}
+     \setlength{\leftmargin}{2em}     % 左边界 \leftmargin =\itemindent + \labelwidth + \labelsep
+     \setlength{\itemindent}{0em}     % 标号缩进量
+     \setlength{\labelwidth}{1em}     % 标号宽度
+     \setlength{\labelsep}{1em}       % 标号和列表项之间的距离,默认0.5em
+     \setlength{\rightmargin}{0em}    % 右边界
+     \setlength{\topsep}{0ex}         % 列表到上下文的垂直距离
+%     \setlength{\partopsep}{0ex}      % 列表是一个新的段落时，加的额外到上下文的距离
+     \setlength{\parsep}{0ex}         % 段落间距
+     \setlength{\itemsep}{0ex}        % 标签间距
+     \setlength{\listparindent}{26pt} % 段落缩进量
+    }}
+{\end{list}}%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 默认字体
+\renewcommand\normalsize{%
+  \@setfontsize\normalsize{12.1pt}{13pt}
+  \setlength\abovedisplayskip{8pt plus 2pt minus 2pt}
+  \setlength\abovedisplayshortskip{7pt plus 2pt minus 2pt}
+  \setlength\belowdisplayskip{\abovedisplayskip}
+  \setlength\belowdisplayshortskip{\abovedisplayshortskip}
+  \setlength\jot{6pt}
+  \let\@listi\@listI}
+\def\defaultfont{\renewcommand{\baselinestretch}{1.37}\normalsize\selectfont}
+\predisplaypenalty=0  %公式之前可以换页，公式出现在页面顶部
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 定义可以指定宽度的下划线
+\def\NJUSTunderline[#1]#2{
+\underline{\hbox to #1{\hfill#2\hfill}}}\def\@NJUSTunderline{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 封面、摘要、版权、致谢格式定义
+%--------定义标签对应选项的值-----------------------------
+\def\natclassifiedindex#1{\def\@natclassifiedindex{#1}}\def\@natclassifiedindex{}
+\def\secretclassifiedindex#1{\def\@secretclassifiedindex{#1}}\def\@secretclassifiedindex{}%密级
+\def\internatclassifiedindex#1{\def\@internatclassifiedindex{#1}}\def\@internatclassifiedindex{}
+
+\def\cname#1{\def\@cname{#1}}\def\@cname{}
+\def\crole#1{\def\@crole{#1}}\def\@crole{}
+\def\school#1{\def\@school{#1}}\def\@school{}
+\def\ctitle#1{\def\@ctitle{#1}}\def\@ctitle{}
+\def\cdegree#1{\def\@cdegree{#1}}\def\@cdegree{}
+\def\csubject#1{\def\@csubject{#1}}\def\@csubject{}
+\def\cauthor#1{\def\@cauthor{#1}}\def\@cauthor{}
+\def\csupervisor#1{\def\@csupervisor{#1}}\def\@csupervisor{}
+%\def\cassosupervisor#1{\def\@cassosupervisor{~ & {\hei 副 \hfill 导 \hfill 师：} & #1\\}}\def\@cassosupervisor{}
+%\def\ccosupervisor#1{\def\@ccosupervisor{~ & {\hei 联 \hfill 合\hfill 导 \hfill 师：} & #1\\}}\def\@ccosupervisor{}
+\def\cdate#1{\def\@cdate{#1}}\def\@cdate{}
+\def\ddate#1{\def\@ddate{#1}}\def\@ddate{}%定义答辩日期
+\def\chairman#1{\def\@chairman{#1}}\def\@chairman{}
+\def\expositor#1{\def\@expositor{#1}}\def\@expositor{}
+
+
+%--------------定义标签(label)---------------------
+\def\lnatclassifiedindex#1{\def\@lnatclassifiedindex{#1}}\def\@lnatclassifiedindex{}
+\def\lsecretclassifiedindex#1{\def\@lsecretclassifiedindex{#1}}\def\@lsecretclassifiedindex{}%密级
+\def\linternatclassifiedindex#1{\def\@linternatclassifiedindex{#1}}\def\@linternatclassifiedindex{}
+
+\def\lname#1{\def\@lname{#1}}\def\@lname{}
+\def\lauthor#1{\def\@lauthor{#1}}\def\@lauthor{}
+\def\lschool#1{\def\@lschool{#1}}\def\@lschool{}
+\def\ldegree#1{\def\@ldegree{#1}}\def\@ldegree{}
+\def\lsubject#1{\def\@lsubject{#1}}\def\@lsubject{}
+\def\lsupervisor#1{\def\@lsupervisor{#1}}\def\@lsupervisor{}
+%\def\lassosupervisor#1{\def\@lassosupervisor{~ & {\hei 副 \hfill 导 \hfill 师：} & #1\\}}\def\@lassosupervisor{}
+%\def\lcosupervisor#1{\def\@lcosupervisor{~ & {\hei 联 \hfill 合\hfill 导 \hfill 师：} & #1\\}}\def\@lcosupervisor{}
+\def\ldate#1{\def\@ldate{#1}}\def\@ldate{}
+\def\lddate#1{\def\@lddate{#1}}\def\@lddate{}%定义答辩日期
+\def\lchairman#1{\def\@lchairman{#1}}\def\@lchairman{}
+\def\lexpositor#1{\def\@lexpositor{#1}}\def\@lexpositor{}
+
+\long\def\cabstract#1{\long\def\@cabstract{#1}}\long\def\@cabstract{}%摘要标签
+\def\ckeywords#1{\def\@ckeywords{#1}}\def\@ckeywords{}%关键词标签
+
+%--------------定义英文封面---------------------
+\def\etitle#1{\def\@etitle{#1}}\def\@etitle{}
+\def\edegree#1{\def\@edegree{#1}}\def\@edegree{}
+\def\eaffil#1{\def\@eaffil{#1}}\def\@eaffil{}
+\def\esubject#1{\def\@esubject{#1}}\def\@esubject{}
+\def\eauthor#1{\def\@eauthor{#1}}\def\@eauthor{}
+\def\esupervisor#1{\def\@esupervisor{#1}}\def\@esupervisor{}
+%\def\eassosupervisor#1{\def\@eassosupervisor{#1}}\def\@eassosupervisor{}
+%\def\eassosupervisor#1{\def\@eassosupervisor{~ & \textbf{Associate Supervisor:} & #1\\}}\def\@eassosupervisor{}
+\def\ecosupervisor#1{\def\@ecosupervisor{#1}}\def\@ecosupervisor{}
+%\def\ecosupervisor#1{\def\@ecosupervisor{~ & \textbf{Co Supervisor:} & #1\\}}\def\@ecosupervisor{}
+\def\edate#1{\def\@edate{#1}}\def\@edate{}
+\long\def\eabstract#1{\long\def\@eabstract{#1}}\long\def\@eabstract{}
+\long\def\NotationList#1{\long\def\@NotationList{#1}}\long\def\@NotationList{}
+\def\ekeywords#1{\def\@ekeywords{#1}}\def\@ekeywords{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 定义封面
+\def\makecover{
+    \normalbiao %表格字号设置
+     %封面一
+    \newpage
+    \thispagestyle{empty}
+    \begin{center}
+
+      \parbox[t][0.6cm][t]{\textwidth}{
+      \begin{center} \end{center}}
+
+      \parbox[t][2.2cm][t]{\textwidth}{%
+       \song \wuhao
+       \@lnatclassifiedindex~
+       \NJUSTunderline[100pt]{\@natclassifiedindex }
+        \hfill
+       \@lsecretclassifiedindex~
+       \NJUSTunderline[100pt]{\@secretclassifiedindex}
+        \vskip 10pt
+        \@linternatclassifiedindex~
+        \NJUSTunderline[108pt]{\@internatclassifiedindex}\hfill
+       }%
+
+      \parbox[t][2.7cm][b]{\textwidth}{\song\yihao
+      \begin{center} {\textbf{学\qquad 位\qquad 论\qquad 文}}\end{center} }
+
+      \setlength{\baselineskip}{1.5\baselineskip}
+      \parbox[t][3.0cm][b]{\textwidth}{\erhao
+      \begin{center} {\hei\textbf{\@school\@cdegree\@ctitle}}\end{center} }
+
+      \begin{center} {\xiaoer\kai{\NJUSTunderline[100pt]{\textbf{\@cauthor}}}} \end{center}%还可设置上下间隔
+
+      \parbox[t][0.8cm][t]{\textwidth}{\begin{center}  \end{center} }
+
+      \parbox[t][6cm][c]{\textwidth}{
+      \begin{center}
+        \begin{tabular}{llcll}
+        \song\xiaosi\@lsupervisor\@lname~&
+        \multicolumn{4}{l}{\NJUSTunderline[320pt]{\kai\sanhao\textbf{\@csupervisor}\hspace*{2em}\kai\sihao\@crole}}\vspace{18pt}\\
+        \hspace*{2.5cm}&
+        \multicolumn{4}{l}{\NJUSTunderline[320pt]{}}\vspace{18pt}\\
+        %\NJUSTunderline[115pt]{\@ccosupervisor}
+        %\NJUSTunderline[115pt]{\@cassosupervisor}
+        \song\xiaosi\@ldegree &
+        \NJUSTunderline[100pt]{\kai\sanhao\textbf{\@cdegree}}&\hspace*{1pt}&
+        \song\xiaosi\@lsubject~&
+        \NJUSTunderline[100pt]{\kai\sanhao\textbf{\@csubject}}\vspace{18pt}\\
+        \song\xiaosi\@ldate~&
+        \NJUSTunderline[100pt]{\defaultfont\@cdate}&\hspace*{2pt}&
+        \song\xiaosi\@lddate~&
+        \NJUSTunderline[100pt]{\defaultfont\@ddate}\vspace{18pt}\\
+        \multicolumn{5}{l}{\song\xiaosi\@lschool~~\NJUSTunderline[285pt]{\kai\sanhao\@school}}\vspace{18pt}\\
+        \multicolumn{4}{r}{\song\xiaosi\@lchairman}&
+        \NJUSTunderline[100pt]{\@chairman}\vspace{18pt}\\
+        \multicolumn{4}{r}{\song\xiaosi\@lexpositor}&
+        \NJUSTunderline[100pt]{\@expositor}\vspace{18pt}
+       \end{tabular}
+     \end{center}}
+
+   \end{center}
+%%%%%%封面一增加一空白页
+  \ifoneortwoside
+    \newpage
+    ~~~\vspace{1em}
+    \thispagestyle{empty}
+  \fi
+%%%%%%%%%内封
+    \begin{titlepage}
+    \begin{center}
+      \parbox[t][1cm][b]{\textwidth}{\xiaoer
+      \begin{center} {\kai \ifxueweimaster\cxueke\fi 中华人民共和国\cxueke\cxuewei 学位论文 }\end{center} }
+
+      \parbox[t][0.8cm][t]{\textwidth}{
+      \begin{center} \end{center} }
+
+      \parbox[t][2cm][t]{\textwidth}{\xiaoer
+      \begin{center} {\hei\textbf{\@school\@cdegree\@ctitle}}\end{center} }
+
+      \ifxueweidoctor
+      \parbox[t][3.8cm][t]{\textwidth}{\xiaoer
+      \begin{center} {\hei  \@etitle}\end{center} }
+      \else
+      \parbox[t][3.8cm][t]{\textwidth}{\centering
+        \ }
+      \fi
+
+    \parbox[t][2.0cm][t]{\textwidth}{\kai\xiaoer
+    \begin{center}
+    \begin{tabular}{lcc}
+    \textbf{\@lauthor:}&
+    \multicolumn{2}{l}{\textbf{\@cauthor}}\\
+    \textbf{\@lsupervisor:}&
+    \textbf{\@csupervisor }&
+    \textbf{\@crole}
+    \end{tabular}
+    \end{center}}
+
+    \ifxueweidoctor
+    %\parbox[t][8.5cm][t]{\textwidth}{\centering
+    \parbox[c][8.5cm][c]{\textwidth}{\centering
+        \includegraphics[width = 7cm,height=7cm]{xiaohui}}
+    \else
+    \parbox[t][8.5cm][t]{\textwidth}{\centering \ }
+    \fi
+
+    \parbox[t][1.2cm][t]{\textwidth}{\xiaoer
+    \begin{center} {\song  \textbf{\@school}}  \end{center} }
+
+    \parbox[t][0.5cm][t]{\textwidth}{
+    \begin{center} {\song \xiaoer \textbf{\@cdate}} \end{center} }
+   \end{center}
+
+%%%% 内封增加一空白页
+    \ifoneortwoside
+      \newpage
+      ~~~\vspace{1em}
+      \thispagestyle{empty}
+    \fi
+
+%%%%% 英文封面
+    \newpage
+    \thispagestyle{empty}
+    \begin{center}
+    \parbox[t][0.6cm][t]{\textwidth}{
+    \begin{center} \end{center}}
+
+   \parbox[t][2.2cm][t]{\textwidth}{}
+
+    \parbox[t][1cm][b]{\textwidth}{\xiaoer
+    \begin{center} {PH. D. Dissertation}\end{center} }
+
+    \parbox[t][2mm][t]{\textwidth}{
+    \begin{center}  \end{center}}
+
+    \parbox[t][3.0cm][b]{\textwidth}{\erhao
+    \begin{center} {\textbf{\@etitle}}\end{center} }
+
+    \parbox[t][3.0cm][t]{\textwidth}{
+    \begin{center}  \end{center}}
+
+    \parbox[t][2.5mm][b]{\textwidth}{\xiaoer
+    \begin{center} { \emph{By}}\end{center}
+
+    \begin{center} { \emph{\textbf{\@eauthor}}}\end{center}}
+
+    \parbox[t][1.2cm][b]{\textwidth}{\xiaoer
+    \begin{center} {\emph{Supervised by Prof.~\textbf{\@esupervisor}}}\end{center}}
+
+    \parbox[t][6.0cm][t]{\textwidth}{
+    \begin{center}  \end{center} }
+
+    \parbox[t][2.6cm][b]{\textwidth}{\xiaoer
+    \begin{center} {Nanjing University of  Science \& Technology}\end{center}
+
+    \begin{center} {\@edate }\end{center}}
+
+   \end{center}
+  \end{titlepage}
+%%%%%%英文封面增加一空白页
+  \ifoneortwoside
+    \newpage
+    ~~~\vspace{1em}
+    \thispagestyle{empty}
+  \fi
+
+ \thispagestyle{empty}
+ \include{appendix/Authorization}   % 原创性申明,即让原创性申明在摘要前显示
+
+%%%%%%增加一空白页
+ \ifoneortwoside
+    \newpage
+    ~~~\vspace{1em}
+    \thispagestyle{empty}
+  \fi
+%%%%%%%%%%%%%%%%%%%   Abstract and keywords  %%%%%%%%%%%%%%%%%%%%%%%修改摘要和关键词???????????
+\clearpage \BiAppendixChapter{\textbf{摘\hspace*{2em}要}}{Abstract (in Chinese)} %不要挪到下一行，生成正确的摘要toc
+\setcounter{page}{1}
+\song \normalsize
+\defaultfont
+\@cabstract \vspace{1em} \hangafter1\hangindent4.28em\noindent
+{\sihao\song \textbf{关键词}} \quad \@ckeywords
+
+%%%%%%%%%%%%%%%%%%%   English Abstract  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\defaultfont \BiAppendixChapter{\textbf{Abstract}}{Abstract (in English)} %不要挪到下一行，生成正确的摘要toc
+\@eabstract
+\vspace{1em}
+
+\hangafter1\hangindent5.5em\noindent
+{\textbf{Keywords}} \quad \@ekeywords
+\wuhaobiao  %正文表格设置
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\urlstyle{same}  %论文中引用的网址的字体默认与正文中字体不一致，这里修正为一致的。
+
+%主要符号表 \NotationList
+\long\def\notation{ \clearpage
+\BiAppendixChapter{\textbf{主要符号说明}}{} \normalbiao
+\@NotationList \wuhaobiao}
+
+%%% 五号字表格设置 start %%%%%
+\gdef\tpltable{\relax}
+\let\tpltable\longtable
+\gdef\wuhaobiao{%五号字
+    \def\tabular{\wuhao\gdef\@halignto{}\@tabular}
+    \def\endtabular{\endarray $\egroup \defaultfont}
+    \def\longtable{\wuhao\tpltable}
+    \def\endlongtable{\adl@LTlastrow \adl@org@endlongtable\defaultfont}
+}
+\gdef\normalbiao{%正常字号
+    \def\tabular{\gdef\@halignto{}\@tabular}
+    \def\endtabular{\endarray $\egroup}
+    \def\longtable{\tpltable}
+    \def\endlongtable{\adl@LTlastrow \adl@org@endlongtable}
+}
+\wuhaobiao
+%%% 五号字表格设置 end %%%%%
+%\renewcommand{\arraystretch}{1.4} %表格中行距 ，导致公式 bmatrix 间距增大。
+
+% 表格与下方间距
+\renewcommand\endtable{\vspace{-2mm}\end@float}
+% 算法与下方间距
+\renewcommand\endalgorithm{\@algocf@finish \ifthenelse {\equal {\algocf@float }{figure}}{\end {figure}}{
+\@algocf@term@caption \ifthenelse {\boolean {algocf@algoH}}{\end {algocf@Here}}
+{\end {algocf}}}\@algocf@term\vspace{-5mm}}
+
+\makeatother

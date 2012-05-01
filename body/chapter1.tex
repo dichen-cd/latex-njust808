@@ -1,0 +1,77 @@
+% !Mode:: "TeX:UTF-8"
+% 这个是为了WinEdt设置的，它的默认不是UTF8.
+% !TeX root = ../main.tex
+% 这个为TexWorks设置，可以用来编译多个文件。
+
+% 若xelatex编译非UTF8文件，需在每个文件中指定字符编码;
+% main.tex中手动制定了\atemp和\usewhat参数；
+\ifx\atempxetex\usewhat
+%\XeTeXinputencoding "gbk"
+\fi
+
+\defaultfont
+
+\titleformat{\chapter}[hang]{\xiaosan\bf\raggedright\song\sf\boldmath}{\xiaoer\chaptertitlename}{18pt}{\xiaosan}
+\titlespacing{\chapter}{0pt}{8pt}{16pt}
+
+\makeatletter
+\newskip\@footindent
+\@footindent=1em
+
+\renewcommand\footnoterule{\kern-3\p@ \hrule width 0.4\columnwidth \kern 2.6\p@}
+\@addtoreset{footnote}{page}
+
+\long\def\@makefntext#1{\@setpar{\@@par\@tempdima \hsize
+\advance\@tempdima-\@footindent
+\parshape \@ne \@footindent \@tempdima}\par
+\noindent \hbox to \z@{\hss\@thefnmark\hspace{0.5em}}#1}
+
+\renewcommand\thefootnote{\pinumber{\arabic{footnote}}}
+\def\@makefnmark{\hbox{\textsuperscript{\@thefnmark}}}
+
+\newcommand\pinumber[1]{\ifcase#1 \or \ding{172}\or \ding{173}\or
+  \ding{174}\or \ding{175}\or \ding{176}\or \ding{177}%
+  \or \ding{178}\or \ding{179}\or \ding{180}\or \ding{181}\else *\fi\relax}
+\makeatother
+%以上从\makeatletter到\makeatother为重定义脚注编号,使之带圆圈
+
+\chapter{绪论}
+\label{cha1:introduction}
+
+
+\section{研究背景}
+\label{sec1:background}
+
+\subsection{图论的兴起}
+\label{subsec1:graph_theory}
+
+
+
+随着科技的迅猛发展，越来越多的问题可以转化成为图，基于图的研究越来越多。
+\cite{Lenard2011}
+
+
+
+
+\subsection{当前数据的复杂性}
+\label{subsec1:data_complexity}
+
+\section{研究意义}
+\label{sec1:motivation}
+
+
+\section{本文的主要贡献}
+\label{sec1:contribution}
+
+
+\section{本文的组织结构}
+\label{sec1:organization}
+
+本文的主要结构如下。
+
+第一章绪论，简要介绍本文研究工作的背景及意义，以及研究工作的意义，以及本文的主要贡献。
+
+第二章文献综述。
+
+最后结论，总结全文的主要工作，以及对于未来工作的展望。
+

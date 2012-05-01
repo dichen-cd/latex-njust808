@@ -1,0 +1,16 @@
+% !Mode:: "TeX:UTF-8"
+% !TeX root = ../main.tex
+% 若xelatex编译非UTF8文件，需在每个文件中指定字符编码;
+% main.tex中手动制定了\atemp和\usewhat参数；
+\ifx\atempxetex\usewhat
+%\XeTeXinputencoding "gbk"
+\fi
+\defaultfont
+
+
+\titleformat{\chapter}[hang]{\xiaosan\bf\filcenter\hei\sf\boldmath}{\xiaoer\chaptertitlename}{18pt}{\xiaosan}
+\titlespacing{\chapter}{0pt}{8pt}{16pt}
+
+\BiAppendixChapter{结~~~~论}{Conclusion}
+
+本文的结论。
